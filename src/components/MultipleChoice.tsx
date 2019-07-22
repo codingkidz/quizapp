@@ -19,19 +19,19 @@ interface State {
 export class MultipleChoice extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.setState({
+    this.state = {
       number: this.props.number,
       question: this.props.question,
       answers: this.props.wrong_answers.concat(this.props.correct_answer)
-    })
+    }
 
-    // this.shuffle(this.state.answers)
+    this.shuffle(this.state.answers)
   }
 
   render() {
     return (
       <View>
-        <Text style={styles.greeting}>
+        <Text>
             Question {this.props.number}
         </Text>
 
@@ -39,7 +39,7 @@ export class MultipleChoice extends React.Component<Props, State> {
         <Text>{this.props.question}</Text>
 
         {/* diplay answer buttons */}
-        <View style={styles.button}>
+        <View>
           {this.displayButtons()}
         </View>
       </View>
