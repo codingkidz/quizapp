@@ -1,10 +1,10 @@
 // components/Hello.tsx
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { MultipleChoice } from '../components/MultipleChoice';
-import questions from '../questions/Unit 1/unit1.json';
+import unit1 from '../questions/Unit 1/unit1.json';
 
-export interface Props {
+interface Props {
   
 }
 
@@ -24,10 +24,10 @@ export class QuestionDemo extends React.Component<Props, State> {
   render() {
     return (
       <MultipleChoice
-        number = {questions.questions.question_1.number}
-        question = {questions.questions.question_1.question}
-        correct_answer = {questions.questions.question_1.correct_answer}
-        wrong_answers = {questions.questions.question_1.wrong_answers}
+        number = {unit1.questions.question_1.number}
+        question = {unit1.questions.question_1.question}
+        correct_answer = {unit1.questions.question_1.correct_answer}
+        wrong_answers = {unit1.questions.question_1.wrong_answers}
       />
     ); 
   }

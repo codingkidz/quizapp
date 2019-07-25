@@ -62,11 +62,11 @@ export class MultipleChoice extends React.Component<Props, State> {
     if(answer === this.props.correct_answer) {
       Alert.alert("Correct")
     } else {
-      Alert.alert("Incorrect!")
+      Alert.alert("Incorrect")
     }
   }
 
-  private shuffle (array: string[]): string[] {
+  private shuffle (array: any[]): any[] {
     var i = 0
       , j = 0
       , temp = null
