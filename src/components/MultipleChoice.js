@@ -1,9 +1,11 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View, Alert} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 
 export class MultipleChoice extends React.Component {
   constructor(props) {
     super(props);
+ 
     this.state = {
       number: this.props.number,
       question: this.props.question,

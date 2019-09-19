@@ -13,7 +13,7 @@ export class Welcome extends React.Component {
       <View>
         <Text>Welcome!</Text>
         <Button
-          title="Begin Questions!"
+          title="Begin Lurning!"
           onPress={() => this.props.navigation.navigate("Quiz")}
         />
       </View>
