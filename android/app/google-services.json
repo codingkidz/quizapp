@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "174152075930",
+    "firebase_url": "https://codingkidz-quiz-app.firebaseio.com",
+    "project_id": "codingkidz-quiz-app",
+    "storage_bucket": "codingkidz-quiz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174152075930:android:2a6905a5ed1d294a822d23",
+        "android_client_info": {
+          "package_name": "com.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174152075930-lgber2i77nukdfrd31mvd08tvgbtb4ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8d_u8HtlKUu8oFpAsj5PFK_7quW73h-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174152075930-lgber2i77nukdfrd31mvd08tvgbtb4ud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "174152075930-6ggcao2319ak6ni8ejr63lcrnlqvlgci.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.codingkidz.quizapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
