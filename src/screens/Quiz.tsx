@@ -7,11 +7,11 @@ import {Question} from '../models/Question';
 
 export const Quiz: React.FC = () => {
   const jsonQuestion = unit1.questions.question_1;
-  let demoQuestion: Question;
+  const [demoQuestion, setQuestion] = React.useState<Question | null>(null);
 
   React.useEffect(() => {
-    console.log("in useEffect", fetchQuestion()); // prints a BS object
-  })
+    fetchQuestion();
+  },[])
   
   const fetchQuestion = async () => {
     await firestore()
@@ -21,8 +21,7 @@ export const Quiz: React.FC = () => {
     .doc('0pnPNyNWNfEDabARzC7C')
     .get()
     .then(snapshot => {
-      console.log("within definition", snapshot.data()) // prints the object I want
-      return snapshot.data();
+      setQuestion(snapshot.data() as Question);
     }).catch(error => {
       console.log(error)
     });
@@ -31,7 +30,7 @@ export const Quiz: React.FC = () => {
   return (
     <>
       <MultipleChoice question={jsonQuestion} />
-      {/* <MultipleChoice question={demoQuestion} /> */}
+      {demoQuestion ? <MultipleChoice question={demoQuestion} /> : null}
     </>
   );
 };

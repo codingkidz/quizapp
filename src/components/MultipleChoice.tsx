@@ -15,8 +15,6 @@ export const MultipleChoice: React.FC<Props> = props => {
 
   return (
     <View>
-      <Text h4>Question {question.number}</Text>
-
       {/* display question */}
       <Text h3>{question.question}</Text>
 
