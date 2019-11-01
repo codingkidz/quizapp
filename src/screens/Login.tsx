@@ -78,7 +78,8 @@ export const Login: React.FC = () => {
   }
 
   async function handlePasswordReset() {
-    await auth()
+    if(email) {
+      await auth()
       .sendPasswordResetEmail(email)
       .then(() => 'Password reset email has been sent!')
       .catch(e => {
@@ -86,8 +87,15 @@ export const Login: React.FC = () => {
           case 'auth/invalid-email':
             Alert.alert('Please Enter a Valid Email');
             break;
+          default:
+            Alert.alert(e);
+            break;
         }
       });
+    } else {
+      Alert.alert('Enter your email, then click forgot password');
+    }
+    
   }
 };
 
