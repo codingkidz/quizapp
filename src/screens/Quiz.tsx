@@ -1,33 +1,58 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, SafeAreaView, ScrollView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {MultipleChoice} from '../components/MultipleChoice';
 import {Question} from '../models/Question';
 
 export const Quiz: React.FC = () => {
-  const [demoQuestion, setQuestion] = React.useState<Question | null>(null);
+  const [questions, setQuestions] = React.useState<Question[] | null>(null);
 
   React.useEffect(() => {
-    fetchQuestion();
-  },[])
-  
-  const fetchQuestion = async () => {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = async () => {
+    let question: Question;
+    let tempQuestions: Question[] = [];
     await firestore()
-    .collection('units')
-    .doc('unit_1')
-    .collection('questions')
-    .doc('0pnPNyNWNfEDabARzC7C')
-    .get()
-    .then(snapshot => {
-      setQuestion(snapshot.data() as Question);
-    }).catch(error => {
-      console.log(error)
-    });
-  }
+      .collection('units')
+      .doc('unit_1')
+      .collection('questions')
+      .get()
+      .then(collectionSnapshot => {
+        collectionSnapshot.forEach(ss => {
+          question = ss.data() as Question;
+          question.id = ss.id;
+          tempQuestions.push(question);
+        });
+      });
+
+    setQuestions(tempQuestions);
+  };
+
+  const renderQuestions = () => {
+    if (questions) {
+      console.log('rendering questions...');
+      return questions.map(question => {
+        return <MultipleChoice key={question.id} question={question} />;
+      });
+    } else {
+      console.log('retrying render...');
+      setTimeout(renderQuestions(), 1000);
+    }
+  };
 
   return (
     <>
-      {demoQuestion ? <MultipleChoice question={demoQuestion} /> : null}
+      {questions ? (
+        <SafeAreaView>
+          <ScrollView>
+            {renderQuestions()}
+          </ScrollView>
+        </SafeAreaView>
+      ) : (
+        <Text>Loading Questions...</Text>
+      )}
     </>
   );
 };
