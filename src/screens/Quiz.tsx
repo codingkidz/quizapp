@@ -5,12 +5,13 @@ import {MultipleChoice} from '../components/MultipleChoice';
 import {LivesContainer} from '../components/LivesContainer';
 import {Question} from '../models/Question';
 import {Button, Text} from 'react-native-elements';
+import {useNavigation} from 'react-navigation-hooks';
 
 export const Quiz: React.FC = () => {
   const [questions, setQuestions] = React.useState<Question[] | null>(null);
   const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState<number>(3);
-  // let lives = 3;
+  const {navigate} = useNavigation();
 
   React.useEffect(() => {
     fetchQuestions();
@@ -35,44 +36,53 @@ export const Quiz: React.FC = () => {
     setQuestions(tempQuestions);
   };
 
-  // const renderQuestions = () => {
-  //   if (questions) {
-  //     console.log('rendering questions...');
-  //     return questions.map(question => {
-  //       return <MultipleChoice key={question.id} question={question} />;
-  //     });
-  //   } else {
-  //     console.log('retrying render...');
-  //     setTimeout(renderQuestions(), 1000);
-  //   }
-  // };
-
   const handleResult = (result: boolean) => {
-    result ? null: setLives(lives-1)
-    // result ? null : lives--;
+    result ? null : setLives(lives - 1);
+    setQuestionIndex(currentQuestionIndex + 1)
   };
 
   const renderQuestion = () => {
-    if (questions) {
-      return (
-        <>
-          <MultipleChoice
-            key={questions[currentQuestionIndex].id}
-            question={questions[currentQuestionIndex]}
-            handleResult={handleResult}
-          />
-        </>
-      );
-    } else {
-      return <Text>Loading Questions...</Text>;
-    }
+    return questions && currentQuestionIndex < questions.length ? (
+      <>
+        <MultipleChoice
+          key={questions[currentQuestionIndex].id}
+          question={questions[currentQuestionIndex]}
+          handleResult={handleResult}
+        />
+      </>
+    ) : (
+      <Text>You Passed the quiz</Text>
+    );
   };
-  
-  return (
+
+  const quizFailed = () => {
+    return (
+      <>
+        <Text h2>You're out of lives</Text>
+        <Button title="Restart Quiz" onPress={resetQuiz} />
+        <Button
+          title="Return to Unit List"
+          onPress={() => {
+            navigate('Welcome');
+          }}
+        />
+      </>
+    );
+  };
+
+  const resetQuiz = () => {
+    setQuestionIndex(0);
+    setLives(3);
+  };
+
+  // RENDER
+  return lives >= 1 ? (
     <>
       <LivesContainer lives={lives} />
-      {renderQuestion()}
+      {questions ? renderQuestion() : <Text>Loading Questions...</Text>}
     </>
+  ) : (
+    quizFailed()
   );
 };
 

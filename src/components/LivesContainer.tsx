@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     alignSelf: 'center',
-    marginHorizontal: 20
-  },
+    marginHorizontal: 20,
+    marginVertical: 20
+  }
 });
