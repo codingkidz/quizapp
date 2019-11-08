@@ -5,13 +5,13 @@ import {Question} from '../models/Question';
 
 interface Props {
   question: Question;
+  handleResult: (result: boolean) => void;
 }
 
 export const MultipleChoice: React.FC<Props> = props => {
   const question: Question = props.question;
-  const answers = shuffle(
-    question.wrong_answers.concat(question.correct_answer)
-  );
+  const [answers] = React.useState(shuffle(question.wrong_answers.concat(question.correct_answer)))
+  let selectedIndex;
 
   return (
     <View>
@@ -20,16 +20,23 @@ export const MultipleChoice: React.FC<Props> = props => {
 
       {/* diplay answer buttons */}
       <View>
-        <ButtonGroup onPress={checkAnswer} buttons={answers} />
+        <ButtonGroup
+          onPress={checkAnswer}
+          buttons={answers}
+          selectedIndex={selectedIndex}
+          selectedButtonStyle={{backgroundColor: 'black'}}
+        />
       </View>
     </View>
   );
 
   function checkAnswer(answer: number) {
     if (answers[answer] === question.correct_answer) {
-      Alert.alert(answers[answer] + ' is Correct');
+      props.handleResult(true);
+      // Alert.alert(answers[answer] + ' is Correct');
     } else {
-      Alert.alert(answers[answer] + ' is Incorrect');
+      props.handleResult(false);
+      // Alert.alert(answers[answer] + ' is Incorrect');
     }
   }
 
@@ -53,21 +60,21 @@ export const MultipleChoice: React.FC<Props> = props => {
 const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   buttons: {
     flexDirection: 'row',
     minHeight: 70,
     alignItems: 'stretch',
     alignSelf: 'center',
-    borderWidth: 5
+    borderWidth: 5,
   },
   button: {
     flex: 1,
-    paddingVertical: 0
+    paddingVertical: 0,
   },
   greeting: {
     color: '#999',
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });

@@ -1,11 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, SafeAreaView, ScrollView} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {MultipleChoice} from '../components/MultipleChoice';
+import {LivesContainer} from '../components/LivesContainer';
 import {Question} from '../models/Question';
+import {Button, Text} from 'react-native-elements';
 
 export const Quiz: React.FC = () => {
   const [questions, setQuestions] = React.useState<Question[] | null>(null);
+  const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
+  const [lives, setLives] = React.useState<number>(3);
+  // let lives = 3;
 
   React.useEffect(() => {
     fetchQuestions();
@@ -30,29 +35,43 @@ export const Quiz: React.FC = () => {
     setQuestions(tempQuestions);
   };
 
-  const renderQuestions = () => {
-    if (questions) {
-      console.log('rendering questions...');
-      return questions.map(question => {
-        return <MultipleChoice key={question.id} question={question} />;
-      });
-    } else {
-      console.log('retrying render...');
-      setTimeout(renderQuestions(), 1000);
-    }
+  // const renderQuestions = () => {
+  //   if (questions) {
+  //     console.log('rendering questions...');
+  //     return questions.map(question => {
+  //       return <MultipleChoice key={question.id} question={question} />;
+  //     });
+  //   } else {
+  //     console.log('retrying render...');
+  //     setTimeout(renderQuestions(), 1000);
+  //   }
+  // };
+
+  const handleResult = (result: boolean) => {
+    result ? null: setLives(lives-1)
+    // result ? null : lives--;
   };
 
+  const renderQuestion = () => {
+    if (questions) {
+      return (
+        <>
+          <MultipleChoice
+            key={questions[currentQuestionIndex].id}
+            question={questions[currentQuestionIndex]}
+            handleResult={handleResult}
+          />
+        </>
+      );
+    } else {
+      return <Text>Loading Questions...</Text>;
+    }
+  };
+  
   return (
     <>
-      {questions ? (
-        <SafeAreaView>
-          <ScrollView>
-            {renderQuestions()}
-          </ScrollView>
-        </SafeAreaView>
-      ) : (
-        <Text>Loading Questions...</Text>
-      )}
+      <LivesContainer lives={lives} />
+      {renderQuestion()}
     </>
   );
 };
@@ -63,12 +82,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
   },
-  buttons: {
+  livesContainer: {
     flexDirection: 'row',
-    minHeight: 70,
     alignItems: 'stretch',
     alignSelf: 'center',
-    borderWidth: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   button: {
     flex: 1,
