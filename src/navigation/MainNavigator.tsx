@@ -6,6 +6,7 @@ import {Welcome} from '../screens/Welcome';
 import {Login} from '../screens/Login';
 import {Register} from '../screens/Register';
 import {AuthLoading} from '../screens/AuthLoading';
+import {Units} from '../screens/Units';
 
 const AuthStack = createStackNavigator(
   {
@@ -32,8 +33,14 @@ const AppStack = createStackNavigator({
   Welcome: {
     screen: Welcome
   },
+  Units: {
+    screen: Units
+  },
   Quiz: {
-    screen: Quiz
+    screen: Quiz,
+    navigationOptions: {
+      headerLeft: null
+    }
   }
 });
 

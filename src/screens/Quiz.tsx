@@ -38,7 +38,7 @@ export const Quiz: React.FC = () => {
 
   const handleResult = (result: boolean) => {
     result ? null : setLives(lives - 1);
-    setQuestionIndex(currentQuestionIndex + 1)
+    setQuestionIndex(currentQuestionIndex + 1);
   };
 
   const renderQuestion = () => {
@@ -51,14 +51,19 @@ export const Quiz: React.FC = () => {
         />
       </>
     ) : (
-      <Text>You Passed the quiz</Text>
+      quizEnded(true)
     );
   };
 
-  const quizFailed = () => {
+  const quizEnded = (passed: boolean) => {
     return (
       <>
-        <Text h2>You're out of lives</Text>
+        {passed ? (
+          <Text h2>Good job you passed the quiz!</Text>
+        ) : (
+          <Text h2>You're out of lives</Text>
+        )}
+
         <Button title="Restart Quiz" onPress={resetQuiz} />
         <Button
           title="Return to Unit List"
@@ -82,7 +87,7 @@ export const Quiz: React.FC = () => {
       {questions ? renderQuestion() : <Text>Loading Questions...</Text>}
     </>
   ) : (
-    quizFailed()
+    quizEnded(false)
   );
 };
 
